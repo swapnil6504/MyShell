@@ -1,0 +1,10 @@
+help
+pwd
+dir
+cmd /c "echo This is a test with quoted arguments"
+ping -n 1 127.0.0.1
+cd "C:\Program Files"
+pwd
+cd ..
+pwd
+exit

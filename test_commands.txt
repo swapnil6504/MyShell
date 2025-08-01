@@ -1,0 +1,6 @@
+help
+pwd
+dir
+cd ..
+pwd
+exit

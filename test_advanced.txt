@@ -1,0 +1,12 @@
+help
+pwd
+dir
+echo "Testing external command execution"
+notepad.exe /?
+cd C:\
+pwd
+dir C:\Program*
+cd ~
+pwd
+cls
+exit
