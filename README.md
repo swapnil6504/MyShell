@@ -154,10 +154,6 @@ Potential improvements for a production version:
 7. **Background Jobs**: Process management for background tasks
 8. **Aliases**: User-definable command aliases
 
-## Author
-
-Made by Swapnil Chhibber
-
 ## License
 
 This implementation is provided as an educational example demonstrating Windows API usage and modern C++ practices.
