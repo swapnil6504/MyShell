@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Test MyShell Web Commands</title>
+</head>
+<body>
+    <h1>Testing MyShell Web Commands</h1>
+    <script>
+        // Test basic functionality
+        console.log("Testing MyShell web version...");
+        
+        // Test if the key functions exist in the HTML
+        fetch('./index.html')
+        .then(response => response.text())
+        .then(html => {
+            const testCommands = [
+                'coffee', 'jaggi', 'whoami', 'mood', 'chai', 
+                'sneaker', 'devtip', 'bug', 'swapgpt', 'sudo',
+                'sing', 'swapify', 'version', 'help'
+            ];
+            
+            const missing = [];
+            const present = [];
+            
+            testCommands.forEach(cmd => {
+                if (html.includes(`case '${cmd}':`)) {
+                    present.push(cmd);
+                } else {
+                    missing.push(cmd);
+                }
+            });
+            
+            console.log("✅ Commands implemented:", present);
+            console.log("❌ Commands missing:", missing);
+            console.log(`📊 Implementation: ${present.length}/${testCommands.length} commands`);
+            
+            document.body.innerHTML += `
+                <h2>Test Results:</h2>
+                <p><strong>✅ Implemented (${present.length}):</strong> ${present.join(', ')}</p>
+                <p><strong>❌ Missing (${missing.length}):</strong> ${missing.length > 0 ? missing.join(', ') : 'None! 🎉'}</p>
+                <p><strong>📊 Coverage:</strong> ${Math.round(present.length/testCommands.length*100)}%</p>
+                <hr>
+                <p><a href="index.html">🚀 Open MyShell Web</a></p>
+            `;
+        })
+        .catch(err => {
+            console.error("Test failed:", err);
+            document.body.innerHTML += "<p>❌ Test failed: " + err + "</p>";
+        });
+    </script>
+</body>
+</html>

@@ -1,6 +1,9 @@
 @echo off
 echo Compiling MyShell...
 
+REM Clean up old executable if it exists
+if exist myshell.exe del myshell.exe
+
 REM Compile with g++ (requires MinGW or similar)
 g++ -std=c++17 -O2 -Wall -Wextra myshell.cpp -o myshell.exe -lshell32
 

@@ -4,173 +4,298 @@
 #include <sstream>
 #include <algorithm>
 #include <memory>
-#include <map>
-#include <functional>
-#include <random>
-#include <ctime>
 #include <emscripten.h>
 #include <emscripten/bind.h>
 
-// Web version of the shell - SwapShell with personality!
-class MyShellWeb {
+// Web version of the shell - simplified without Windows API
+class MyShellWeb
+{
 private:
     std::string currentDirectory;
     bool running;
     std::vector<std::string> outputBuffer;
-    std::map<std::string, std::function<std::string()>> customCommands;
-    std::mt19937 rng;
-    
+
 public:
-    MyShellWeb() : running(true), currentDirectory("/home/user"), rng(static_cast<unsigned>(std::time(nullptr))) {
+    MyShellWeb() : running(true), currentDirectory("/home/user")
+    {
         outputBuffer.push_back("===========================================");
-        outputBuffer.push_back("Welcome to SwapShell v1.0 🚀 (Web Edition)");
+        outputBuffer.push_back("Welcome to MyShell v1.0 🚀");
         outputBuffer.push_back("Crafted with ❤️ by Swapnil Chhibber");
         outputBuffer.push_back("Final Year Computer Engineering Student");
         outputBuffer.push_back("Thapar Institute of Engineering & Technology");
         outputBuffer.push_back("===========================================");
-        outputBuffer.push_back("Type 'help' for available commands");
+        outputBuffer.push_back("Ready to code, debug, and conquer! 💪");
+        outputBuffer.push_back("Type 'help' for commands or try 'coffee' for wisdom ☕");
         outputBuffer.push_back("");
-        
-        // Initialize custom commands
-        initializeCustomCommands();
     }
 
-    std::string processCommand(const std::string& input) {
+    std::string processCommand(const std::string &input)
+    {
         std::vector<std::string> tokens = tokenizeCommand(input);
-        
-        if (tokens.empty()) {
+
+        if (tokens.empty())
+        {
             return "";
         }
 
         std::string command = tokens[0];
         std::transform(command.begin(), command.end(), command.begin(), ::tolower);
 
-        if (command == "help") {
+        if (command == "help")
+        {
             return handleHelp();
-        } else if (command == "pwd") {
+        }
+        else if (command == "about" || command == "author")
+        {
+            return handleAbout();
+        }
+        else if (command == "coffee")
+        {
+            return handleCoffee();
+        }
+        else if (command == "joke")
+        {
+            return handleJoke();
+        }
+        else if (command == "thapar")
+        {
+            return handleThapar();
+        }
+        else if (command == "motivate" || command == "quote")
+        {
+            return handleMotivate();
+        }
+        else if (command == "jaggi")
+        {
+            return handleJaggi();
+        }
+        else if (command == "whoami")
+        {
+            return handleWhoami();
+        }
+        else if (command == "mood")
+        {
+            return handleMood();
+        }
+        else if (command == "chai")
+        {
+            return handleChai();
+        }
+        else if (command == "hi" || command == "hello")
+        {
+            return handleGreeting();
+        }
+        else if (command == "sneaker")
+        {
+            return handleSneaker();
+        }
+        else if (command == "devtip")
+        {
+            return handleDevTip();
+        }
+        else if (command == "bug")
+        {
+            return handleBug();
+        }
+        else if (command == "thanks")
+        {
+            return handleThanks();
+        }
+        else if (command == "swapgpt")
+        {
+            return handleSwapGPT();
+        }
+        else if (command == "sudo")
+        {
+            return handleSudoJoke();
+        }
+        else if (command == "sing")
+        {
+            return handleSing();
+        }
+        else if (command == "swapify")
+        {
+            return handleSwapify();
+        }
+        else if (command == "version" || command == "ver")
+        {
+            return handleVersion();
+        }
+        else if (command == "pwd")
+        {
             return "Current directory: " + currentDirectory;
-        } else if (command == "cd") {
+        }
+        else if (command == "cd")
+        {
             return handleChangeDirectory(tokens);
-        } else if (command == "ls" || command == "dir") {
+        }
+        else if (command == "ls" || command == "dir")
+        {
             return handleListDirectory();
-        } else if (command == "clear" || command == "cls") {
+        }
+        else if (command == "clear" || command == "cls")
+        {
             outputBuffer.clear();
             return "Screen cleared";
-        } else if (command == "echo") {
+        }
+        else if (command == "echo")
+        {
             std::string result = "Output: ";
-            for (size_t i = 1; i < tokens.size(); ++i) {
-                if (i > 1) result += " ";
+            for (size_t i = 1; i < tokens.size(); ++i)
+            {
+                if (i > 1)
+                    result += " ";
                 result += tokens[i];
             }
             return result;
-        } else if (command == "date") {
-            return handleDate();
-        } else if (command == "whoami") {
-            return handleWhoAmI();
-        } else if (customCommands.find(command) != customCommands.end()) {
-            // Execute custom SwapShell command
-            return customCommands[command]();
-        } else if (command == "exit") {
-            return "Thank you for using SwapShell Web! 🚀\\nKeep coding and stay awesome! 💪";
-        } else {
+        }
+        else if (command == "date")
+        {
+            return "Current date: August 2, 2025 (simulated)\nHope you're killing it today! 💪";
+        }
+        else if (command == "whoami")
+        {
+            return handleWhoami();
+        }
+        else if (command == "exit")
+        {
+            return R"(Thanks for using MyShell Web! 🚀
+Built with ❤️ by Swapnil Chhibber
+Keep coding and stay awesome! ✨)";
+        }
+        else
+        {
             return "Error: Command '" + command + "' not found. Type 'help' for available commands.";
         }
     }
 
-    std::string getPrompt() {
-        return "Swap🐚> ";
+    std::string getPrompt()
+    {
+        return "MyShell> ";
     }
 
 private:
-    std::vector<std::string> tokenizeCommand(const std::string& command) {
+    std::vector<std::string> tokenizeCommand(const std::string &command)
+    {
         std::vector<std::string> tokens;
         std::string current_token;
         bool in_quotes = false;
         char quote_char = '\0';
 
-        for (size_t i = 0; i < command.length(); ++i) {
+        for (size_t i = 0; i < command.length(); ++i)
+        {
             char c = command[i];
 
-            if (!in_quotes && (c == '"' || c == '\'')) {
+            if (!in_quotes && (c == '"' || c == '\''))
+            {
                 in_quotes = true;
                 quote_char = c;
-            } else if (in_quotes && c == quote_char) {
+            }
+            else if (in_quotes && c == quote_char)
+            {
                 in_quotes = false;
                 quote_char = '\0';
-            } else if (!in_quotes && (c == ' ' || c == '\t')) {
-                if (!current_token.empty()) {
+            }
+            else if (!in_quotes && (c == ' ' || c == '\t'))
+            {
+                if (!current_token.empty())
+                {
                     tokens.push_back(current_token);
                     current_token.clear();
                 }
-            } else {
+            }
+            else
+            {
                 current_token += c;
             }
         }
 
-        if (!current_token.empty()) {
+        if (!current_token.empty())
+        {
             tokens.push_back(current_token);
         }
 
         return tokens;
     }
 
-    std::string handleHelp() {
-        return R"(=== SwapShell Web Help ===
+    std::string handleHelp()
+    {
+        return R"(=== MyShell Web Help ===
 Built-in commands:
   help            - Show this help message
+  about/author    - Show author information
   pwd             - Print working directory
   cd <directory>  - Change directory (simulated)
   ls/dir          - List directory contents
   clear/cls       - Clear the screen
   echo <text>     - Echo text to output
-  date            - Quirky date display
-  whoami          - About Swapnil
+  date            - Show current date
+  whoami          - Show current user
   exit            - Exit message
+  version/ver     - Show version info
 
-SwapShell Special Commands:
-  coffee          - Get coffee recommendations ☕
-  jaggi           - ASCII coffee art from Jaggi
-  quote           - Random inspirational quote
-  mood            - Random mood message
-  chai            - Chai vs coffee debate
+☕ Swapnil's Signature Commands:
+  coffee          - Best cold coffee wisdom
+  jaggi           - ASCII coffee art & Jaggi tribute
+  chai            - Hot take on masala chai
+  quote/motivate  - Random inspirational quotes
+  whoami          - Swapnil's introduction
+  mood            - Current coding mood
   hi/hello        - Friendly greeting
   sneaker         - Sneaker drop check
-  swapgpt         - Fake AI assistant
-  thanks          - Acknowledgment
-  bug             - Random bug names
-  devtip          - Coding wisdom
-  sudo            - Power check
+  devtip          - Random coding wisdom
+  bug             - Funny bug names
+  thanks          - Gratitude acknowledgment
+  joke            - Programming jokes
+  thapar          - About Thapar Institute
+
+🎭 Easter Eggs & Fun:
+  swapgpt         - AI simulation
+  sudo            - No power here!
   sing            - Musical interlude
   swapify         - Music player simulation
 
-This is SwapShell Web Edition - C++ shell with personality! 🚀
-The desktop version runs natively on Windows with full OS integration.)";
+This is a web demonstration of the C++ shell.
+The original version runs natively on Windows with full OS integration.
+Built with ❤️ by Swapnil Chhibber)";
     }
 
-    std::string handleChangeDirectory(const std::vector<std::string>& tokens) {
-        if (tokens.size() < 2) {
+    std::string handleChangeDirectory(const std::vector<std::string> &tokens)
+    {
+        if (tokens.size() < 2)
+        {
             return "Error: Usage: cd <directory>";
         }
 
         std::string newPath = tokens[1];
-        if (newPath == "..") {
+        if (newPath == "..")
+        {
             size_t lastSlash = currentDirectory.find_last_of("/");
-            if (lastSlash != std::string::npos && lastSlash > 0) {
+            if (lastSlash != std::string::npos && lastSlash > 0)
+            {
                 currentDirectory = currentDirectory.substr(0, lastSlash);
             }
-        } else if (newPath == "~" || newPath == "/home") {
+        }
+        else if (newPath == "~" || newPath == "/home")
+        {
             currentDirectory = "/home/user";
-        } else {
-            if (newPath[0] != '/') {
+        }
+        else
+        {
+            if (newPath[0] != '/')
+            {
                 currentDirectory += "/" + newPath;
-            } else {
+            }
+            else
+            {
                 currentDirectory = newPath;
             }
         }
         return "Changed directory to: " + currentDirectory;
     }
 
-    std::string handleListDirectory() {
+    std::string handleListDirectory()
+    {
         return R"([DIR]  documents
 [DIR]  downloads
 [DIR]  projects
@@ -181,190 +306,264 @@ The desktop version runs natively on Windows with full OS integration.)";
 Note: This is a simulated directory listing for demonstration.)";
     }
 
-    void initializeCustomCommands() {
-        customCommands["coffee"] = [this]() { return handleCoffee(); };
-        customCommands["jaggi"] = [this]() { return handleJaggi(); };
-        customCommands["quote"] = [this]() { return handleQuote(); };
-        customCommands["mood"] = [this]() { return handleMood(); };
-        customCommands["chai"] = [this]() { return handleChai(); };
-        customCommands["hi"] = [this]() { return handleGreeting(); };
-        customCommands["hello"] = [this]() { return handleGreeting(); };
-        customCommands["sneaker"] = [this]() { return handleSneaker(); };
-        customCommands["swapgpt"] = [this]() { return handleSwapGPT(); };
-        customCommands["thanks"] = [this]() { return handleThanks(); };
-        customCommands["bug"] = [this]() { return handleBug(); };
-        customCommands["devtip"] = [this]() { return handleDevTip(); };
-        customCommands["ls"] = [this]() { return handleLinuxLS(); };
-        customCommands["sudo"] = [this]() { return handleSudo(); };
-        customCommands["sing"] = [this]() { return handleSing(); };
-        customCommands["swapify"] = [this]() { return handleSwapify(); };
+    std::string handleAbout()
+    {
+        return R"(=== About SwapShell ===
+Author: Swapnil Chhibber
+Student: Final Year Computer Engineering
+University: Thapar Institute of Engineering & Technology
+Location: Patiala, Punjab, India
+
+"Building the future, one line of code at a time! 💻✨"
+
+This shell was built with C++17, Windows API, and lots of ☕
+Web version powered by modern JavaScript and creativity!)";
     }
 
-    std::string handleCoffee() {
-        return "☕ Jaggi serves the best cold coffee. Swap recommends it!";
+    std::string handleJaggi()
+    {
+        return R"(🏆 Tribute to Jaggi Uncle (The Coffee Legend):
+
+      ╔══════════════════════╗
+      ║     ☕ JAGGI ☕      ║
+      ║   Cold Coffee King   ║
+      ║  Making dreams come  ║
+      ║   true, one cup at   ║
+      ║      a time! 👑      ║
+      ╚══════════════════════╝
+
+The man, the myth, the coffee legend! 🙌)";
     }
 
-    std::string handleJaggi() {
-        return R"(    (
-     )
-  +---------+
-  |  JAGGI  |
-  |  COFFEE |
-  +---------+
-      ___
-     /   \
-    /_____\
-
-"Find this joy at Jaggi, Patiala's legendary sip stop.")";
+    std::string handleWhoami()
+    {
+        return R"(🚀 Meet the Developer:
+Name: Swapnil Chhibber
+Role: Code Magician & Coffee Enthusiast ☕
+Motto: 'Building software that matters, one line at a time'
+Specialty: C++, Creative Solutions, and Cold Coffee Advocacy
+Current Status: Bringing personality to terminals everywhere! 🎭)";
     }
 
-    std::string handleQuote() {
-        std::vector<std::string> quotes = {
-            "\"Programs must be written for people to read, and only incidentally for machines to execute.\" – Harold Abelson",
-            "\"The best error message is the one that never shows up.\" – Thomas Fuchs",
-            "\"Code is like humor. When you have to explain it, it's bad.\" – Cory House",
-            "\"First, solve the problem. Then, write the code.\" – John Johnson",
-            "\"Experience is the name everyone gives to their mistakes.\" – Oscar Wilde",
-            "\"In order to be irreplaceable, one must always be different.\" – Coco Chanel",
-            "\"Java is to JavaScript what car is to Carpet.\" – Chris Heilmann",
-            "\"Walking on water and developing software from a specification are easy if both are frozen.\" – Edward V. Berard",
-            "\"The computer was born to solve problems that did not exist before.\" – Bill Gates",
-            "\"Talk is cheap. Show me the code.\" – Linus Torvalds"
-        };
+    std::string handleMood()
+    {
+        static int moodIndex = 0;
+        const std::vector<std::string> moods = {
+            "🔥 On fire! Code is flowing like water!",
+            "☕ Caffeinated and ready to debug the world!",
+            "🎯 Laser-focused on solving complex problems",
+            "🎨 In creative mode - architecting something beautiful",
+            "🧘 Zen coding state - one with the algorithm",
+            "🚀 Rocket mode engaged - productivity at maximum!",
+            "🎵 Vibing with the code rhythm",
+            "⚡ Electric! Every keystroke is pure energy!"};
 
-        std::uniform_int_distribution<> dist(0, quotes.size() - 1);
-        int index = dist(rng);
-        return "💬 " + quotes[index];
+        std::string result = "🎭 Swapnil's Current Coding Mood:\n";
+        result += moods[moodIndex];
+
+        moodIndex = (moodIndex + 1) % moods.size();
+        return result;
     }
 
-    std::string handleWhoAmI() {
-        return "🔥 Swapnil Chhibber, Future SDE, Sneakerhead & Problem-Solving Ninja\\nCurrently crafting code at Thapar Institute 🎓";
+    std::string handleChai()
+    {
+        return R"(🫖 Hot Take on Chai:
+Look, I respect chai culture, but...
+Cold coffee >>> Chai (fight me! ☕)
+Though I admit, masala chai has its moments... 🤷‍♂️
+But for coding marathons? Cold coffee all the way! 💪)";
     }
 
-    std::string handleMood() {
-        std::vector<std::string> moods = {
-            "Running on Coffee ☕",
-            "Feeling Debuggy 🐞",
-            "Zen Mode Activated ✨",
-            "Compiling Thoughts 🤔",
-            "Error 418: I'm a teapot 🫖",
-            "Optimizing Life.exe 🔧",
-            "Stack Overflow Survivor 📚",
-            "Syntax Error in Reality 🌀",
-            "Powered by Caffeine & Dreams ⚡",
-            "404: Sleep Not Found 😴"
-        };
-
-        std::uniform_int_distribution<> dist(0, moods.size() - 1);
-        int index = dist(rng);
-        return "Current Mood: " + moods[index];
+    std::string handleGreeting()
+    {
+        return R"(👋 Hey there, awesome human!
+Welcome to SwapShell - where commands meet personality!
+Ready to explore some quirky features? Type 'help' to get started! 🚀)";
     }
 
-    std::string handleChai() {
-        return "🍵 Masala chai > caffeine pills. Fight me.\\nThe perfect blend of spices and caffeine for coding sessions! 💪";
+    std::string handleSneaker()
+    {
+        static int sneakerIndex = 0;
+        const std::vector<std::string> sneakerFacts = {
+            "Latest drop: Air Max 97 'Silver Bullet' - Classic never dies! 🔥",
+            "Jordan 1 High OG 'Chicago' - The GOAT of sneakers! 🐐",
+            "Yeezy 350 V2 'Static' - Comfort meets style! ⚡",
+            "Off-White x Nike - Virgil's legacy lives on! 👑",
+            "New Balance 990v3 'Grey' - The dad shoe that's actually fire! 😎"};
+
+        std::string result = "👟 Sneaker Drop Alert:\n";
+        result += sneakerFacts[sneakerIndex] + "\n";
+        result += "Remember: Sneakers are code for your feet! 👟💻";
+
+        sneakerIndex = (sneakerIndex + 1) % sneakerFacts.size();
+        return result;
     }
 
-    std::string handleGreeting() {
-        return "Hey! You're talking to SwapShell Web Edition. Let's get stuff done 💪\\nReady to tackle some code? 🚀";
+    std::string handleDevTip()
+    {
+        static int tipIndex = 0;
+        const std::vector<std::string> tips = {
+            "Always comment your code - your future self will thank you!",
+            "const > let > var - Choose your JavaScript variables wisely!",
+            "Test early, test often, test with coffee! ☕",
+            "Git commit messages should tell a story, not just say 'fix'",
+            "Rubber duck debugging works - talk to your coffee mug if needed!",
+            "Take breaks! Your best solutions come when you step away.",
+            "Learn one new thing every day - consistency beats intensity!",
+            "Code reviews are love letters to your teammates."};
+
+        std::string result = "💡 Swapnil's Dev Tip of the Day:\n";
+        result += tips[tipIndex];
+
+        tipIndex = (tipIndex + 1) % tips.size();
+        return result;
     }
 
-    std::string handleDate() {
-        return "📅 Today is August 2, 2025 (Web Edition)\\nHope you're killing it today! 🔥";
+    std::string handleBug()
+    {
+        static int bugIndex = 0;
+        const std::vector<std::string> adjectives = {"Sneaky", "Invisible", "Quantum", "Ninja", "Phantom", "Mysterious", "Dancing", "Laughing"};
+        const std::vector<std::string> nouns = {"SegFault", "NullPointer", "MemoryLeak", "BufferOverflow", "RaceCondition", "DeadLock", "StackOverflow", "HeapCorruption"};
+
+        int adjIndex = bugIndex % adjectives.size();
+        int nounIndex = bugIndex % nouns.size();
+
+        std::string result = "🐛 Today's Bug Name Generator:\n";
+        result += "Meet: " + adjectives[adjIndex] + " " + nouns[nounIndex] + "! 🎭\n";
+        result += "Approach with caution and plenty of coffee! ☕";
+
+        bugIndex = (bugIndex + 1) % (adjectives.size() * nouns.size());
+        return result;
     }
 
-    std::string handleSneaker() {
-        return "👟 Sneaker drop today? Swap's checking Hypebeast...\\nCurrent rotation: Air Jordans, Yeezys, and coding socks 🧦";
+    std::string handleThanks()
+    {
+        return R"(🙏 You're very welcome!
+Thanks for using SwapShell - you make all this coding worthwhile!
+Remember: You're awesome, and your code is too! 🌟
+Now go forth and create something amazing! 🚀)";
     }
 
-    std::string handleSwapGPT() {
-        std::vector<std::string> responses = {
-            "SwapGPT: You should get some rest 😴",
-            "SwapGPT: Have you tried turning it off and on again? 🔄",
-            "SwapGPT: The answer is 42, but what was the question? 🤖",
-            "SwapGPT: More coffee = better code. Science! ☕",
-            "SwapGPT: Error 404: Motivation not found. Try coffee.exe 🚀",
-            "SwapGPT: Remember: Real programmers count from 0 📊",
-            "SwapGPT: Stack Overflow is your friend, not your enemy 📚"
-        };
-
-        std::uniform_int_distribution<> dist(0, responses.size() - 1);
-        int index = dist(rng);
-        return "🤖 " + responses[index];
+    std::string handleSwapGPT()
+    {
+        return R"(🤖 SwapGPT v1.0 Initializing...
+[████████████████████] 100%
+SwapGPT: Hello! I'm the shell's AI assistant!
+SwapGPT: I can help with... uh... making coffee recommendations?
+SwapGPT: And telling you that cold coffee > hot coffee! ☕
+SwapGPT: (Disclaimer: I'm just a function in disguise 😉))";
     }
 
-    std::string handleThanks() {
-        return "✨ Gratitude is acknowledged. Now go build something cool!\\nRemember: Every expert was once a beginner 🌱";
+    std::string handleSudoJoke()
+    {
+        return R"(🚫 sudo: Permission denied!
+Nice try, but this is web territory! 🌐
+Here we use 'localStorage' like civilized people! 😄
+sudo make me a sandwich? How about 'coffee first'! ☕)";
     }
 
-    std::string handleBug() {
-        std::vector<std::string> bugNames = {
-            "SegFaultzilla spotted 🦖",
-            "404: Sanity Not Found 🔍",
-            "NullPointerException-osaurus 🦕",
-            "The Infinite Loop Monster 🌀",
-            "Captain Memory Leak 💧",
-            "Buffer Overflow Beast 📊",
-            "The Syntax Error Goblin 👹",
-            "Race Condition Racer 🏎️",
-            "Deadlock Dragon 🐉",
-            "Stack Overflow Kraken 🐙"
-        };
-
-        std::uniform_int_distribution<> dist(0, bugNames.size() - 1);
-        int index = dist(rng);
-        return "🐛 Bug Alert: " + bugNames[index] + "\\nTime to debug! Remember: It's not a bug, it's a feature 😉";
+    std::string handleSing()
+    {
+        return R"(🎵 SwapShell Serenade:
+♪ Code, code, code your app ♪
+♪ Gently down the stream ♪
+♪ Merrily, merrily, merrily, merrily ♪
+♪ Life is but a dream... of clean code! ♪
+*Takes a bow* 🎭 Thank you, thank you! ☕)";
     }
 
-    std::string handleDevTip() {
-        std::vector<std::string> tips = {
-            "Always write code like the person maintaining it is a psychopath.",
-            "Comment your code like you're explaining it to your past self.",
-            "If debugging is the process of removing bugs, then programming must be the process of putting them in.",
-            "The best code is no code at all. The second best is code you don't have to maintain.",
-            "Premature optimization is the root of all evil (or at least most of it) in programming.",
-            "Code never lies, comments sometimes do.",
-            "The only way to learn a new programming language is by writing programs in it.",
-            "Simplicity is the ultimate sophistication in code.",
-            "Make it work, make it right, make it fast – in that order.",
-            "Good code is its own best documentation."
-        };
-
-        std::uniform_int_distribution<> dist(0, tips.size() - 1);
-        int index = dist(rng);
-        return "💡 Dev Tip: " + tips[index];
+    std::string handleSwapify()
+    {
+        return R"(🎧 Welcome to Swapify - Premium Music Experience!
+🎵 Now playing: 'The Algorithm Blues' by Code Monks
+⏮️  ⏸️  ⏭️  🔄  📶
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3:42 / 4:20
+Up next: 'Segmentation Fault Samba' 🎶
+Premium feature: No ads, just pure coding vibes! ☕)";
     }
 
-    std::string handleLinuxLS() {
-        return "😎 Wrong OS buddy. Try 'dir' instead!\\nOr maybe it's time to dual boot? 🐧";
+    std::string handleVersion()
+    {
+        return R"(🌐 MyShell Web v1.0
+Platform: Browser (WebAssembly)
+Author: Swapnil Chhibber
+Build: August 2025
+
+📊 Feature Comparison:
+✅ Web Version: 20+ commands, cross-platform, instant access
+✅ Native Version: 26+ commands, full Windows integration, file system access
+
+🚀 Both versions include Swapnil's signature personality and quirky commands!
+Built with the same love for coffee and clean code! ☕)";
     }
 
-    std::string handleSudo() {
-        return "🧙 You have no power here!\\nThis is a web browser, not your Linux playground 😄";
+    std::string handleCoffee()
+    {
+        return R"(☕ Jaggi serves the best cold coffee! ☕
+Trust me, I'm a computer engineering student.
+Cold coffee is basically liquid motivation! 💪
+Fun fact: This shell was coded with 73% cold coffee in my system! 😄)";
     }
 
-    std::string handleSing() {
-        return "🎵 Baby Shark doo doo doo doo doo doo\\n🎵 Baby Shark doo doo doo doo doo doo\\n🎵 Baby Shark doo doo doo doo doo doo\\n🎵 Baby Shark! 🦈\\n(Sorry, not sorry for the earworm 😈)";
+    std::string handleJoke()
+    {
+        static int jokeIndex = 0;
+        const std::vector<std::string> jokes = {
+            "Why do programmers prefer dark mode? Because light attracts bugs! 🐛",
+            "How many programmers does it take to change a light bulb? None, that's a hardware problem! 💡",
+            "Why do Java developers wear glasses? Because they don't C# ! 👓",
+            "A SQL query walks into a bar, walks up to two tables and asks: 'Can I join you?' 🍺",
+            "There are only 10 types of people: those who understand binary and those who don't! 1010",
+            "Why did the programmer quit his job? He didn't get arrays! 📊",
+            "What's a computer's favorite beat? An algo-rhythm! 🎵"};
+
+        std::string result = "😂 Swapnil's Programming Joke #" + std::to_string(jokeIndex + 1) + ":\n";
+        result += jokes[jokeIndex];
+
+        jokeIndex = (jokeIndex + 1) % jokes.size();
+        return result;
     }
 
-    std::string handleSwapify() {
-        std::vector<std::string> songs = {
-            "Lo-fi for Coding - 1:23/2:47",
-            "Synthwave Programming Mix - 45:32/1:23:45",
-            "Coffee Shop Jazz - 12:34/35:20",
-            "Focus Flow State - 2:15/4:30",
-            "Midnight Coding Session - 8:42/15:33",
-            "Retro Gaming Beats - 3:21/6:45",
-            "Productive Vibes Only - 5:55/12:10"
-        };
+    std::string handleThapar()
+    {
+        return R"(🏛️  Thapar Institute of Engineering & Technology 🏛️
+📍 Location: Patiala, Punjab, India
+📅 Established: 1956
+🎓 My Program: Computer Engineering (Final Year)
 
-        std::uniform_int_distribution<> dist(0, songs.size() - 1);
-        int index = dist(rng);
-        return "🎧 SwapSpotify Web: Now playing: " + songs[index] + "\\n🔀 Shuffle: ON | 🔁 Repeat: OFF | 🔊 Volume: Perfect for coding";
+💡 Known for:
+   • Excellent engineering programs
+   • Strong industry connections
+   • Beautiful campus in Punjab
+   • Producing awesome engineers like me! 😎
+
+Proud to be a Thapar student! 🚀)";
+    }
+
+    std::string handleMotivate()
+    {
+        static int quoteIndex = 0;
+        const std::vector<std::string> quotes = {
+            "\"Code is like humor. When you have to explain it, it's bad.\" - Cory House 💻",
+            "\"The best error message is the one that never shows up.\" - Thomas Fuchs ✨",
+            "\"Programming isn't about what you know; it's about what you can figure out.\" - Chris Pine 🧠",
+            "\"Experience is the name everyone gives to their mistakes.\" - Oscar Wilde 📚",
+            "\"The only way to learn a new programming language is by writing programs in it.\" - Dennis Ritchie 🔥",
+            "\"Keep coding, keep learning, keep growing!\" - Swapnil Chhibber 🌱",
+            "\"Coffee + Code = Magic. That's the Thapar way!\" - Swapnil's Life Philosophy ☕"};
+
+        std::string result = "✨ Motivation from Swapnil ✨\n";
+        result += quotes[quoteIndex] + "\n\n";
+        result += "You've got this! Keep pushing forward! 💪🚀";
+
+        quoteIndex = (quoteIndex + 1) % quotes.size();
+        return result;
     }
 };
 
 // Bind the class to JavaScript
-EMSCRIPTEN_BINDINGS(myshell_module) {
+EMSCRIPTEN_BINDINGS(myshell_module)
+{
     emscripten::class_<MyShellWeb>("MyShellWeb")
         .constructor<>()
         .function("processCommand", &MyShellWeb::processCommand)

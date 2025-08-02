@@ -1,0 +1,8 @@
+help
+about
+coffee
+joke
+thapar
+motivate
+pwd
+exit

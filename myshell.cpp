@@ -4,10 +4,6 @@
 #include <sstream>
 #include <algorithm>
 #include <memory>
-#include <map>
-#include <functional>
-#include <random>
-#include <ctime>
 
 // Windows-specific headers
 #include <windows.h>
@@ -22,8 +18,6 @@ private:
     std::string currentDirectory;
     bool running;
     HANDLE hConsole;
-    std::map<std::string, std::function<void()>> customCommands;
-    std::mt19937 rng;
 
     // Console colors for enhanced UI
     enum class Color
@@ -39,7 +33,7 @@ private:
     };
 
 public:
-    MyShell() : running(true), rng(static_cast<unsigned>(std::time(nullptr)))
+    MyShell() : running(true)
     {
         // Get console handle for colored output
         hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -49,9 +43,6 @@ public:
 
         // Set console to handle UTF-8 properly
         SetConsoleOutputCP(CP_UTF8);
-
-        // Initialize custom commands
-        initializeCustomCommands();
     }
 
     ~MyShell()
@@ -83,24 +74,23 @@ private:
     {
         setConsoleColor(Color::CYAN);
         std::cout << "===========================================\n";
-        std::cout << "Welcome to SwapShell v1.0 🚀\n";
-        setConsoleColor(Color::MAGENTA);
-        std::cout << "Crafted with ❤️  by Swapnil Chhibber\n";
-        setConsoleColor(Color::YELLOW);
+        std::cout << "Welcome to MyShell v1.0 🚀\n";
+        std::cout << "Crafted with ❤️ by Swapnil Chhibber\n";
         std::cout << "Final Year Computer Engineering Student\n";
         std::cout << "Thapar Institute of Engineering & Technology\n";
-        setConsoleColor(Color::CYAN);
         std::cout << "===========================================\n";
         setConsoleColor(Color::YELLOW);
-        std::cout << "Type 'help' for available commands\n\n";
+        std::cout << "Ready to code, debug, and conquer! 💪\n";
+        std::cout << "Type 'help' for commands or try 'coffee' for wisdom ☕\n\n";
         setConsoleColor(Color::WHITE);
     }
 
     void printExitMessage()
     {
         setConsoleColor(Color::CYAN);
-        std::cout << "\nThank you for using SwapShell! 🚀\n";
-        std::cout << "Keep coding and stay awesome! 💪\n";
+        std::cout << "\nThanks for using SwapShell! 🚀\n";
+        std::cout << "Built with ❤️ by Swapnil Chhibber\n";
+        std::cout << "Keep coding and stay awesome! ✨\n";
         setConsoleColor(Color::WHITE);
     }
 
@@ -125,7 +115,7 @@ private:
     void displayPrompt()
     {
         setConsoleColor(Color::CYAN);
-        std::cout << "Swap🐚> ";
+        std::cout << "MyShell> ";
         setConsoleColor(Color::WHITE);
     }
 
@@ -224,6 +214,90 @@ private:
         {
             handleHelp();
         }
+        else if (command == "about" || command == "author")
+        {
+            handleAbout();
+        }
+        else if (command == "coffee")
+        {
+            handleCoffee();
+        }
+        else if (command == "jaggi")
+        {
+            handleJaggi();
+        }
+        else if (command == "quote")
+        {
+            handleQuote();
+        }
+        else if (command == "whoami")
+        {
+            handleWhoami();
+        }
+        else if (command == "mood")
+        {
+            handleMood();
+        }
+        else if (command == "chai")
+        {
+            handleChai();
+        }
+        else if (command == "hi" || command == "hello")
+        {
+            handleGreeting();
+        }
+        else if (command == "date")
+        {
+            handleDate();
+        }
+        else if (command == "sneaker")
+        {
+            handleSneaker();
+        }
+        else if (command == "swapgpt")
+        {
+            handleSwapGPT();
+        }
+        else if (command == "thanks")
+        {
+            handleThanks();
+        }
+        else if (command == "bug")
+        {
+            handleBug();
+        }
+        else if (command == "devtip")
+        {
+            handleDevTip();
+        }
+        else if (command == "ls")
+        {
+            handleLsJoke();
+        }
+        else if (command == "sudo")
+        {
+            handleSudoJoke();
+        }
+        else if (command == "sing")
+        {
+            handleSing();
+        }
+        else if (command == "swapify")
+        {
+            handleSwapify();
+        }
+        else if (command == "joke")
+        {
+            handleJoke();
+        }
+        else if (command == "thapar")
+        {
+            handleThapar();
+        }
+        else if (command == "motivate" || command == "quote")
+        {
+            handleMotivate();
+        }
         else if (command == "cls" || command == "clear")
         {
             handleClear();
@@ -232,14 +306,9 @@ private:
         {
             handlePrintWorkingDirectory();
         }
-        else if (command == "dir")
+        else if (command == "dir" || command == "ls")
         {
             handleListDirectory(tokens);
-        }
-        else if (customCommands.find(command) != customCommands.end())
-        {
-            // Execute custom SwapShell command
-            customCommands[command]();
         }
         else
         {
@@ -357,55 +426,283 @@ private:
         }
     }
 
+    void handleJaggi()
+    {
+        setConsoleColor(Color::CYAN);
+        std::cout << "🏆 Tribute to Jaggi Uncle (The Coffee Legend):\n";
+        setConsoleColor(Color::WHITE);
+        std::cout << R"(
+      ╔══════════════════════╗
+      ║     ☕ JAGGI ☕      ║
+      ║   Cold Coffee King   ║
+      ║  Making dreams come  ║
+      ║   true, one cup at   ║
+      ║      a time! 👑      ║
+      ╚══════════════════════╝
+)" << std::endl;
+        std::cout << "The man, the myth, the coffee legend! 🙌\n\n";
+    }
+
+    void handleQuote()
+    {
+        setConsoleColor(Color::GREEN);
+        std::cout << "💡 Daily Inspiration:\n";
+        setConsoleColor(Color::WHITE);
+
+        std::vector<std::string> quotes = {
+            "\"Code is poetry written in logic.\" - Swapnil",
+            "\"Every bug is just an undiscovered feature waiting to happen.\"",
+            "\"Coffee first, code second, debug third.\"",
+            "\"The best error message is the one that never shows up.\"",
+            "\"Programming is the art of telling a computer what to do.\"",
+            "\"In code we trust, in comments we verify.\"",
+            "\"A day without learning is a day wasted.\"",
+            "\"Think twice, code once, debug never.\"",
+            "\"Great software is built by great teams, fueled by great coffee.\""};
+
+        int index = rand() % quotes.size();
+        std::cout << quotes[index] << "\n\n";
+    }
+
+    void handleWhoami()
+    {
+        setConsoleColor(Color::MAGENTA);
+        std::cout << "🚀 Meet the Developer:\n";
+        setConsoleColor(Color::WHITE);
+        std::cout << "Name: Swapnil\n";
+        std::cout << "Role: Code Magician & Coffee Enthusiast ☕\n";
+        std::cout << "Motto: 'Building software that matters, one line at a time'\n";
+        std::cout << "Specialty: C++, Creative Solutions, and Cold Coffee Advocacy\n";
+        std::cout << "Current Status: Bringing personality to terminals everywhere! 🎭\n\n";
+    }
+
+    void handleMood()
+    {
+        setConsoleColor(Color::YELLOW);
+        std::cout << "🎭 Swapnil's Current Coding Mood:\n";
+        setConsoleColor(Color::WHITE);
+
+        std::vector<std::string> moods = {
+            "🔥 On fire! Code is flowing like water!",
+            "☕ Caffeinated and ready to debug the world!",
+            "🎯 Laser-focused on solving complex problems",
+            "🎨 In creative mode - architecting something beautiful",
+            "🧘 Zen coding state - one with the algorithm",
+            "🚀 Rocket mode engaged - productivity at maximum!",
+            "🎵 Vibing with the code rhythm",
+            "⚡ Electric! Every keystroke is pure energy!"};
+
+        int index = rand() % moods.size();
+        std::cout << moods[index] << "\n\n";
+    }
+
+    void handleChai()
+    {
+        setConsoleColor(Color::RED);
+        std::cout << "🫖 Hot Take on Chai:\n";
+        setConsoleColor(Color::WHITE);
+        std::cout << "Look, I respect chai culture, but...\n";
+        std::cout << "Cold coffee >>> Chai (fight me! ☕)\n";
+        std::cout << "Though I admit, masala chai has its moments... 🤷‍♂️\n";
+        std::cout << "But for coding marathons? Cold coffee all the way! 💪\n\n";
+    }
+
+    void handleGreeting()
+    {
+        setConsoleColor(Color::GREEN);
+        std::cout << "👋 Hey there, awesome human!\n";
+        setConsoleColor(Color::WHITE);
+        std::cout << "Welcome to SwapShell - where commands meet personality!\n";
+        std::cout << "Ready to explore some quirky features? Type 'help' to get started! 🚀\n\n";
+    }
+
+    void handleDate()
+    {
+        setConsoleColor(Color::YELLOW);
+        std::cout << "📅 Today's Date & Time:\n";
+        setConsoleColor(Color::WHITE);
+
+        SYSTEMTIME st;
+        GetLocalTime(&st);
+
+        std::cout << "Date: " << st.wDay << "/" << st.wMonth << "/" << st.wYear << "\n";
+        std::cout << "Time: " << st.wHour << ":" << (st.wMinute < 10 ? "0" : "") << st.wMinute << ":" << (st.wSecond < 10 ? "0" : "") << st.wSecond << "\n";
+        setConsoleColor(Color::GREEN);
+        std::cout << "Hope you're killing it today! 💪\n\n";
+        setConsoleColor(Color::WHITE);
+    }
+
+    void handleSneaker()
+    {
+        setConsoleColor(Color::MAGENTA);
+        std::cout << "👟 Sneaker Drop Alert:\n";
+        setConsoleColor(Color::WHITE);
+
+        std::vector<std::string> sneakerFacts = {
+            "Latest drop: Air Max 97 'Silver Bullet' - Classic never dies! 🔥",
+            "Jordan 1 High OG 'Chicago' - The GOAT of sneakers! 🐐",
+            "Yeezy 350 V2 'Static' - Comfort meets style! ⚡",
+            "Off-White x Nike - Virgil's legacy lives on! 👑",
+            "New Balance 990v3 'Grey' - The dad shoe that's actually fire! 😎"};
+
+        int index = rand() % sneakerFacts.size();
+        std::cout << sneakerFacts[index] << "\n";
+        std::cout << "Remember: Sneakers are code for your feet! 👟💻\n\n";
+    }
+
+    void handleSwapGPT()
+    {
+        setConsoleColor(Color::CYAN);
+        std::cout << "🤖 SwapGPT v1.0 Initializing...\n";
+        setConsoleColor(Color::WHITE);
+        std::cout << "[████████████████████] 100%\n";
+        std::cout << "SwapGPT: Hello! I'm the shell's AI assistant!\n";
+        std::cout << "SwapGPT: I can help with... uh... making coffee recommendations?\n";
+        std::cout << "SwapGPT: And telling you that cold coffee > hot coffee! ☕\n";
+        std::cout << "SwapGPT: (Disclaimer: I'm just a function in disguise 😉)\n\n";
+    }
+
+    void handleDevTip()
+    {
+        setConsoleColor(Color::YELLOW);
+        std::cout << "💡 Swapnil's Dev Tip of the Day:\n";
+        setConsoleColor(Color::WHITE);
+
+        std::vector<std::string> tips = {
+            "Always comment your code - your future self will thank you!",
+            "const > let > var - Choose your JavaScript variables wisely!",
+            "Test early, test often, test with coffee! ☕",
+            "Git commit messages should tell a story, not just say 'fix'",
+            "Rubber duck debugging works - talk to your coffee mug if needed!",
+            "Take breaks! Your best solutions come when you step away.",
+            "Learn one new thing every day - consistency beats intensity!",
+            "Code reviews are love letters to your teammates."};
+
+        int index = rand() % tips.size();
+        std::cout << tips[index] << "\n\n";
+    }
+
+    void handleBug()
+    {
+        setConsoleColor(Color::RED);
+        std::cout << "🐛 Today's Bug Name Generator:\n";
+        setConsoleColor(Color::WHITE);
+
+        std::vector<std::string> adjectives = {"Sneaky", "Invisible", "Quantum", "Ninja", "Phantom", "Mysterious", "Dancing", "Laughing"};
+        std::vector<std::string> nouns = {"SegFault", "NullPointer", "MemoryLeak", "BufferOverflow", "RaceCondition", "DeadLock", "StackOverflow", "HeapCorruption"};
+
+        int adjIndex = rand() % adjectives.size();
+        int nounIndex = rand() % nouns.size();
+
+        std::cout << "Meet: " << adjectives[adjIndex] << " " << nouns[nounIndex] << "! 🎭\n";
+        std::cout << "Approach with caution and plenty of coffee! ☕\n\n";
+    }
+
+    void handleThanks()
+    {
+        setConsoleColor(Color::GREEN);
+        std::cout << "🙏 You're very welcome!\n";
+        setConsoleColor(Color::WHITE);
+        std::cout << "Thanks for using SwapShell - you make all this coding worthwhile!\n";
+        std::cout << "Remember: You're awesome, and your code is too! 🌟\n";
+        std::cout << "Now go forth and create something amazing! 🚀\n\n";
+    }
+
+    void handleSudoJoke()
+    {
+        setConsoleColor(Color::RED);
+        std::cout << "🚫 sudo: Permission denied!\n";
+        setConsoleColor(Color::WHITE);
+        std::cout << "Nice try, but this is Windows territory! 🪟\n";
+        std::cout << "Here we use 'Run as Administrator' like civilized people! 😄\n";
+        std::cout << "sudo make me a sandwich? How about 'coffee first'! ☕\n\n";
+    }
+
+    void handleLsJoke()
+    {
+        setConsoleColor(Color::YELLOW);
+        std::cout << "🐧 ls: command not found!\n";
+        setConsoleColor(Color::WHITE);
+        std::cout << "Wrong penguin house, buddy! 🐧\n";
+        std::cout << "You're in Windows land - try 'dir' instead! 🪟\n";
+        std::cout << "But I appreciate the Linux spirit! 💚\n\n";
+    }
+
+    void handleSing()
+    {
+        setConsoleColor(Color::MAGENTA);
+        std::cout << "🎵 SwapShell Serenade:\n";
+        setConsoleColor(Color::WHITE);
+        std::cout << "♪ Code, code, code your app ♪\n";
+        std::cout << "♪ Gently down the stream ♪\n";
+        std::cout << "♪ Merrily, merrily, merrily, merrily ♪\n";
+        std::cout << "♪ Life is but a dream... of clean code! ♪\n";
+        std::cout << "*Takes a bow* 🎭 Thank you, thank you! ☕\n\n";
+    }
+
+    void handleSwapify()
+    {
+        setConsoleColor(Color::GREEN);
+        std::cout << "🎧 Welcome to Swapify - Premium Music Experience!\n";
+        setConsoleColor(Color::WHITE);
+        std::cout << "🎵 Now playing: 'The Algorithm Blues' by Code Monks\n";
+        std::cout << "⏮️  ⏸️  ⏭️  🔄  📶\n";
+        std::cout << "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3:42 / 4:20\n";
+        std::cout << "Up next: 'Segmentation Fault Samba' 🎶\n";
+        std::cout << "Premium feature: No ads, just pure coding vibes! ☕\n\n";
+    }
+
     void handleHelp()
     {
         setConsoleColor(Color::CYAN);
-        std::cout << "\n=== SwapShell Help ===\n";
+        std::cout << "\n=== SwapShell Command Center ===\n";
         setConsoleColor(Color::WHITE);
-        std::cout << "Built-in commands:\n";
+        std::cout << "Standard commands:\n";
         std::cout << "  cd <directory>  - Change current directory\n";
         std::cout << "  exit            - Exit the shell\n";
         std::cout << "  help            - Show this help message\n";
+        std::cout << "  about/author    - Show author information\n";
         std::cout << "  cls/clear       - Clear the screen\n";
         std::cout << "  pwd             - Print working directory\n";
-        std::cout << "  dir/ls [path]   - List directory contents\n";
-        
+        std::cout << "  dir             - List directory contents\n";
+
         setConsoleColor(Color::YELLOW);
-        std::cout << "\nSwapShell Special Commands:\n";
+        std::cout << "\n☕ Swapnil's Signature Commands:\n";
         setConsoleColor(Color::WHITE);
-        std::cout << "  coffee          - Get coffee recommendations ☕\n";
-        std::cout << "  jaggi           - ASCII coffee art from Jaggi\n";
-        std::cout << "  quote           - Random inspirational quote\n";
-        std::cout << "  whoami          - About Swapnil\n";
-        std::cout << "  mood            - Random mood message\n";
-        std::cout << "  chai            - Chai vs coffee debate\n";
+        std::cout << "  coffee          - Best cold coffee wisdom\n";
+        std::cout << "  jaggi           - ASCII coffee art & Jaggi tribute\n";
+        std::cout << "  chai            - Hot take on masala chai\n";
+        std::cout << "  quote           - Random inspirational quotes\n";
+        std::cout << "  whoami          - Swapnil's introduction\n";
+        std::cout << "  mood            - Current coding mood\n";
         std::cout << "  hi/hello        - Friendly greeting\n";
-        std::cout << "  date            - Quirky date display\n";
+        std::cout << "  date            - Quirky formatted system date\n";
         std::cout << "  sneaker         - Sneaker drop check\n";
-        std::cout << "  swapgpt         - Fake AI assistant\n";
-        std::cout << "  thanks          - Acknowledgment\n";
-        std::cout << "  bug             - Random bug names\n";
-        std::cout << "  devtip          - Coding wisdom\n";
-        std::cout << "  sudo            - Power check\n";
+        std::cout << "  devtip          - Random coding wisdom\n";
+        std::cout << "  bug             - Funny bug names\n";
+        std::cout << "  thanks          - Gratitude acknowledgment\n";
+        std::cout << "  joke            - Programming jokes\n";
+        std::cout << "  thapar          - About Thapar Institute\n";
+        std::cout << "  motivate        - Motivational quotes\n";
+
+        setConsoleColor(Color::MAGENTA);
+        std::cout << "\n🎭 Easter Eggs & Fun:\n";
+        setConsoleColor(Color::WHITE);
+        std::cout << "  swapgpt         - AI simulation\n";
+        std::cout << "  sudo            - No power here!\n";
+        std::cout << "  ls              - Wrong OS buddy\n";
         std::cout << "  sing            - Musical interlude\n";
         std::cout << "  swapify         - Music player simulation\n";
-        
+
         setConsoleColor(Color::GREEN);
-        std::cout << "\nSpecial features:\n";
-        std::cout << "  - Quoted arguments support\n";
-        std::cout << "  - Basic pipe detection (|)\n";
-        std::cout << "  - Basic redirection detection (>, <)\n";
-        std::cout << "  - External command execution\n";
-        std::cout << "  - Colored output with personality 🎨\n\n";
+        std::cout << "\nBuilt with C++17, Windows API, and endless ☕\n";
+        std::cout << "Each command crafted with Swapnil's personality! 🚀\n\n";
         setConsoleColor(Color::WHITE);
     }
 
     void handleClear()
     {
         system("cls");
-        setConsoleColor(Color::CYAN);
-        std::cout << "Let's start fresh ✨\n\n";
-        setConsoleColor(Color::WHITE);
     }
 
     void handlePrintWorkingDirectory()
@@ -457,6 +754,97 @@ private:
 
         FindClose(hFind);
         setConsoleColor(Color::WHITE);
+    }
+
+    void handleAbout()
+    {
+        setConsoleColor(Color::CYAN);
+        std::cout << "\n=== About SwapShell ===\n";
+        setConsoleColor(Color::MAGENTA);
+        std::cout << "Author: Swapnil Chhibber\n";
+        std::cout << "Student: Final Year Computer Engineering\n";
+        std::cout << "University: Thapar Institute of Engineering & Technology\n";
+        setConsoleColor(Color::YELLOW);
+        std::cout << "Location: Patiala, Punjab, India\n";
+        setConsoleColor(Color::GREEN);
+        std::cout << "\n\"Building the future, one line of code at a time! 💻✨\"\n";
+        setConsoleColor(Color::WHITE);
+        std::cout << "\nThis shell was built with C++17, Windows API, and lots of ☕\n\n";
+    }
+
+    void handleCoffee()
+    {
+        setConsoleColor(Color::YELLOW);
+        std::cout << "☕ Jaggi serves the best cold coffee! ☕\n";
+        setConsoleColor(Color::GREEN);
+        std::cout << "Trust me, I'm a computer engineering student.\n";
+        std::cout << "Cold coffee is basically liquid motivation! 💪\n";
+        setConsoleColor(Color::CYAN);
+        std::cout << "Fun fact: This shell was coded with 73% cold coffee in my system! 😄\n\n";
+        setConsoleColor(Color::WHITE);
+    }
+
+    void handleJoke()
+    {
+        static int jokeIndex = 0;
+        const std::vector<std::string> jokes = {
+            "Why do programmers prefer dark mode? Because light attracts bugs! 🐛",
+            "How many programmers does it take to change a light bulb? None, that's a hardware problem! 💡",
+            "Why do Java developers wear glasses? Because they don't C# ! 👓",
+            "A SQL query walks into a bar, walks up to two tables and asks: 'Can I join you?' 🍺",
+            "There are only 10 types of people: those who understand binary and those who don't! 1010",
+            "Why did the programmer quit his job? He didn't get arrays! 📊",
+            "What's a computer's favorite beat? An algo-rhythm! 🎵"};
+
+        setConsoleColor(Color::YELLOW);
+        std::cout << "😂 Swapnil's Programming Joke #" << (jokeIndex + 1) << ":\n";
+        setConsoleColor(Color::GREEN);
+        std::cout << jokes[jokeIndex] << "\n\n";
+        setConsoleColor(Color::WHITE);
+
+        jokeIndex = (jokeIndex + 1) % jokes.size();
+    }
+
+    void handleThapar()
+    {
+        setConsoleColor(Color::BLUE);
+        std::cout << "\n🏛️  Thapar Institute of Engineering & Technology 🏛️\n";
+        setConsoleColor(Color::YELLOW);
+        std::cout << "📍 Location: Patiala, Punjab, India\n";
+        std::cout << "📅 Established: 1956\n";
+        std::cout << "🎓 My Program: Computer Engineering (Final Year)\n";
+        setConsoleColor(Color::GREEN);
+        std::cout << "\n💡 Known for:\n";
+        std::cout << "   • Excellent engineering programs\n";
+        std::cout << "   • Strong industry connections\n";
+        std::cout << "   • Beautiful campus in Punjab\n";
+        std::cout << "   • Producing awesome engineers like me! 😎\n";
+        setConsoleColor(Color::CYAN);
+        std::cout << "\nProud to be a Thapar student! 🚀\n\n";
+        setConsoleColor(Color::WHITE);
+    }
+
+    void handleMotivate()
+    {
+        static int quoteIndex = 0;
+        const std::vector<std::string> quotes = {
+            "\"Code is like humor. When you have to explain it, it's bad.\" - Cory House 💻",
+            "\"The best error message is the one that never shows up.\" - Thomas Fuchs ✨",
+            "\"Programming isn't about what you know; it's about what you can figure out.\" - Chris Pine 🧠",
+            "\"Experience is the name everyone gives to their mistakes.\" - Oscar Wilde 📚",
+            "\"The only way to learn a new programming language is by writing programs in it.\" - Dennis Ritchie 🔥",
+            "\"Keep coding, keep learning, keep growing!\" - Swapnil Chhibber 🌱",
+            "\"Coffee + Code = Magic. That's the Thapar way!\" - Swapnil's Life Philosophy ☕"};
+
+        setConsoleColor(Color::MAGENTA);
+        std::cout << "✨ Motivation from Swapnil ✨\n";
+        setConsoleColor(Color::CYAN);
+        std::cout << quotes[quoteIndex] << "\n";
+        setConsoleColor(Color::YELLOW);
+        std::cout << "\nYou've got this! Keep pushing forward! 💪🚀\n\n";
+        setConsoleColor(Color::WHITE);
+
+        quoteIndex = (quoteIndex + 1) % quotes.size();
     }
 
     void executeExternalCommand(const std::vector<std::string> &tokens)
@@ -562,275 +950,6 @@ private:
                 setConsoleColor(Color::WHITE);
             }
         }
-    }
-
-    void initializeCustomCommands()
-    {
-        customCommands["coffee"] = [this]() { handleCoffee(); };
-        customCommands["jaggi"] = [this]() { handleJaggi(); };
-        customCommands["quote"] = [this]() { handleQuote(); };
-        customCommands["whoami"] = [this]() { handleWhoAmI(); };
-        customCommands["mood"] = [this]() { handleMood(); };
-        customCommands["chai"] = [this]() { handleChai(); };
-        customCommands["hi"] = [this]() { handleGreeting(); };
-        customCommands["hello"] = [this]() { handleGreeting(); };
-        customCommands["date"] = [this]() { handleDate(); };
-        customCommands["sneaker"] = [this]() { handleSneaker(); };
-        customCommands["swapgpt"] = [this]() { handleSwapGPT(); };
-        customCommands["thanks"] = [this]() { handleThanks(); };
-        customCommands["bug"] = [this]() { handleBug(); };
-        customCommands["devtip"] = [this]() { handleDevTip(); };
-        customCommands["ls"] = [this]() { handleLinuxLS(); };
-        customCommands["sudo"] = [this]() { handleSudo(); };
-        customCommands["sing"] = [this]() { handleSing(); };
-        customCommands["swapify"] = [this]() { handleSwapify(); };
-    }
-
-    void handleCoffee()
-    {
-        setConsoleColor(Color::YELLOW);
-        std::cout << "☕ Jaggi serves the best cold coffee. Swap recommends it!\n";
-        setConsoleColor(Color::WHITE);
-    }
-
-    void handleJaggi()
-    {
-        setConsoleColor(Color::YELLOW);
-        std::cout << "    (\n";
-        std::cout << "     )\n";
-        std::cout << "  +---------+\n";
-        std::cout << "  |  JAGGI  |\n";
-        std::cout << "  |  COFFEE |\n";
-        std::cout << "  +---------+\n";
-        std::cout << "      ___\n";
-        std::cout << "     /   \\\n";
-        std::cout << "    /_____\\\n\n";
-        setConsoleColor(Color::CYAN);
-        std::cout << "\"Find this joy at Jaggi, Patiala's legendary sip stop.\"\n";
-        setConsoleColor(Color::WHITE);
-    }
-
-    void handleQuote()
-    {
-        std::vector<std::string> quotes = {
-            "\"Programs must be written for people to read, and only incidentally for machines to execute.\" – Harold Abelson",
-            "\"The best error message is the one that never shows up.\" – Thomas Fuchs",
-            "\"Code is like humor. When you have to explain it, it's bad.\" – Cory House",
-            "\"First, solve the problem. Then, write the code.\" – John Johnson",
-            "\"Experience is the name everyone gives to their mistakes.\" – Oscar Wilde",
-            "\"In order to be irreplaceable, one must always be different.\" – Coco Chanel",
-            "\"Java is to JavaScript what car is to Carpet.\" – Chris Heilmann",
-            "\"Walking on water and developing software from a specification are easy if both are frozen.\" – Edward V. Berard",
-            "\"The computer was born to solve problems that did not exist before.\" – Bill Gates",
-            "\"Talk is cheap. Show me the code.\" – Linus Torvalds"
-        };
-
-        std::uniform_int_distribution<> dist(0, quotes.size() - 1);
-        int index = dist(rng);
-
-        setConsoleColor(Color::MAGENTA);
-        std::cout << "💬 " << quotes[index] << "\n";
-        setConsoleColor(Color::WHITE);
-    }
-
-    void handleWhoAmI()
-    {
-        setConsoleColor(Color::CYAN);
-        std::cout << "🔥 Swapnil Chhibber, Future SDE, Sneakerhead & Problem-Solving Ninja\n";
-        setConsoleColor(Color::YELLOW);
-        std::cout << "Currently crafting code at Thapar Institute 🎓\n";
-        setConsoleColor(Color::WHITE);
-    }
-
-    void handleMood()
-    {
-        std::vector<std::string> moods = {
-            "Running on Coffee ☕",
-            "Feeling Debuggy 🐞",
-            "Zen Mode Activated ✨",
-            "Compiling Thoughts 🤔",
-            "Error 418: I'm a teapot 🫖",
-            "Optimizing Life.exe 🔧",
-            "Stack Overflow Survivor 📚",
-            "Syntax Error in Reality 🌀",
-            "Powered by Caffeine & Dreams ⚡",
-            "404: Sleep Not Found 😴"
-        };
-
-        std::uniform_int_distribution<> dist(0, moods.size() - 1);
-        int index = dist(rng);
-
-        setConsoleColor(Color::GREEN);
-        std::cout << "Current Mood: " << moods[index] << "\n";
-        setConsoleColor(Color::WHITE);
-    }
-
-    void handleChai()
-    {
-        setConsoleColor(Color::YELLOW);
-        std::cout << "🍵 Masala chai > caffeine pills. Fight me.\n";
-        setConsoleColor(Color::CYAN);
-        std::cout << "The perfect blend of spices and caffeine for coding sessions! 💪\n";
-        setConsoleColor(Color::WHITE);
-    }
-
-    void handleGreeting()
-    {
-        setConsoleColor(Color::GREEN);
-        std::cout << "Hey! You're talking to SwapShell. Let's get stuff done 💪\n";
-        setConsoleColor(Color::YELLOW);
-        std::cout << "Ready to tackle some code? 🚀\n";
-        setConsoleColor(Color::WHITE);
-    }
-
-    void handleDate()
-    {
-        SYSTEMTIME st;
-        GetLocalTime(&st);
-        
-        setConsoleColor(Color::CYAN);
-        std::cout << "📅 Today is " << st.wDay << "/" << st.wMonth << "/" << st.wYear << "\n";
-        setConsoleColor(Color::YELLOW);
-        std::cout << "Hope you're killing it today! 🔥\n";
-        setConsoleColor(Color::WHITE);
-    }
-
-    void handleSneaker()
-    {
-        setConsoleColor(Color::MAGENTA);
-        std::cout << "👟 Sneaker drop today? Swap's checking Hypebeast...\n";
-        setConsoleColor(Color::YELLOW);
-        std::cout << "Current rotation: Air Jordans, Yeezys, and coding socks 🧦\n";
-        setConsoleColor(Color::WHITE);
-    }
-
-    void handleSwapGPT()
-    {
-        std::vector<std::string> responses = {
-            "SwapGPT: You should get some rest 😴",
-            "SwapGPT: Have you tried turning it off and on again? 🔄",
-            "SwapGPT: The answer is 42, but what was the question? 🤖",
-            "SwapGPT: More coffee = better code. Science! ☕",
-            "SwapGPT: Error 404: Motivation not found. Try coffee.exe 🚀",
-            "SwapGPT: Remember: Real programmers count from 0 📊",
-            "SwapGPT: Stack Overflow is your friend, not your enemy 📚"
-        };
-
-        std::uniform_int_distribution<> dist(0, responses.size() - 1);
-        int index = dist(rng);
-
-        setConsoleColor(Color::BLUE);
-        std::cout << "🤖 " << responses[index] << "\n";
-        setConsoleColor(Color::WHITE);
-    }
-
-    void handleThanks()
-    {
-        setConsoleColor(Color::GREEN);
-        std::cout << "✨ Gratitude is acknowledged. Now go build something cool!\n";
-        setConsoleColor(Color::CYAN);
-        std::cout << "Remember: Every expert was once a beginner 🌱\n";
-        setConsoleColor(Color::WHITE);
-    }
-
-    void handleBug()
-    {
-        std::vector<std::string> bugNames = {
-            "SegFaultzilla spotted 🦖",
-            "404: Sanity Not Found 🔍",
-            "NullPointerException-osaurus 🦕",
-            "The Infinite Loop Monster 🌀",
-            "Captain Memory Leak 💧",
-            "Buffer Overflow Beast 📊",
-            "The Syntax Error Goblin 👹",
-            "Race Condition Racer 🏎️",
-            "Deadlock Dragon 🐉",
-            "Stack Overflow Kraken 🐙"
-        };
-
-        std::uniform_int_distribution<> dist(0, bugNames.size() - 1);
-        int index = dist(rng);
-
-        setConsoleColor(Color::RED);
-        std::cout << "🐛 Bug Alert: " << bugNames[index] << "\n";
-        setConsoleColor(Color::YELLOW);
-        std::cout << "Time to debug! Remember: It's not a bug, it's a feature 😉\n";
-        setConsoleColor(Color::WHITE);
-    }
-
-    void handleDevTip()
-    {
-        std::vector<std::string> tips = {
-            "Always write code like the person maintaining it is a psychopath.",
-            "Comment your code like you're explaining it to your past self.",
-            "If debugging is the process of removing bugs, then programming must be the process of putting them in.",
-            "The best code is no code at all. The second best is code you don't have to maintain.",
-            "Premature optimization is the root of all evil (or at least most of it) in programming.",
-            "Code never lies, comments sometimes do.",
-            "The only way to learn a new programming language is by writing programs in it.",
-            "Simplicity is the ultimate sophistication in code.",
-            "Make it work, make it right, make it fast – in that order.",
-            "Good code is its own best documentation."
-        };
-
-        std::uniform_int_distribution<> dist(0, tips.size() - 1);
-        int index = dist(rng);
-
-        setConsoleColor(Color::CYAN);
-        std::cout << "💡 Dev Tip: " << tips[index] << "\n";
-        setConsoleColor(Color::WHITE);
-    }
-
-    void handleLinuxLS()
-    {
-        setConsoleColor(Color::YELLOW);
-        std::cout << "😎 Wrong OS buddy. Try 'dir' instead!\n";
-        setConsoleColor(Color::CYAN);
-        std::cout << "Or maybe it's time to dual boot? 🐧\n";
-        setConsoleColor(Color::WHITE);
-    }
-
-    void handleSudo()
-    {
-        setConsoleColor(Color::RED);
-        std::cout << "🧙 You have no power here!\n";
-        setConsoleColor(Color::YELLOW);
-        std::cout << "This is Windows, not your Linux playground 😄\n";
-        setConsoleColor(Color::WHITE);
-    }
-
-    void handleSing()
-    {
-        setConsoleColor(Color::MAGENTA);
-        std::cout << "🎵 Baby Shark doo doo doo doo doo doo\n";
-        std::cout << "🎵 Baby Shark doo doo doo doo doo doo\n";
-        std::cout << "🎵 Baby Shark doo doo doo doo doo doo\n";
-        std::cout << "🎵 Baby Shark! 🦈\n";
-        setConsoleColor(Color::YELLOW);
-        std::cout << "(Sorry, not sorry for the earworm 😈)\n";
-        setConsoleColor(Color::WHITE);
-    }
-
-    void handleSwapify()
-    {
-        std::vector<std::string> songs = {
-            "Lo-fi for Coding - 1:23/2:47",
-            "Synthwave Programming Mix - 45:32/1:23:45",
-            "Coffee Shop Jazz - 12:34/35:20",
-            "Focus Flow State - 2:15/4:30",
-            "Midnight Coding Session - 8:42/15:33",
-            "Retro Gaming Beats - 3:21/6:45",
-            "Productive Vibes Only - 5:55/12:10"
-        };
-
-        std::uniform_int_distribution<> dist(0, songs.size() - 1);
-        int index = dist(rng);
-
-        setConsoleColor(Color::GREEN);
-        std::cout << "🎧 SwapSpotify: Now playing: " << songs[index] << "\n";
-        setConsoleColor(Color::CYAN);
-        std::cout << "🔀 Shuffle: ON | 🔁 Repeat: OFF | 🔊 Volume: Perfect for coding\n";
-        setConsoleColor(Color::WHITE);
     }
 
     void printError(const std::string &message)

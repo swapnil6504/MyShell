@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyShell - C++ Shell in Browser</title>
+    <title>MyShell - Swapnil's C++ Shell in Browser</title>
     <style>
         body {
             margin: 0;
@@ -132,9 +132,10 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🖥️ MyShell - Interactive C++ Shell</h1>
-            <p>Experience a C++ shell implementation running in your browser via WebAssembly</p>
-            <p>Originally built for Windows with full OS integration - this is a web demonstration</p>
+            <h1>🖥️ MyShell - Swapnil's Interactive C++ Shell</h1>
+            <p>Experience a personalized C++ shell implementation running in your browser</p>
+            <p>Created by <strong>Swapnil Chhibber</strong> - Final Year Computer Engineering Student</p>
+            <p>Thapar Institute of Engineering & Technology</p>
         </div>
         
         <div class="terminal" id="terminal">
@@ -143,7 +144,7 @@
             </div>
             <div id="output" style="display: none;"></div>
             <div class="input-line" id="inputLine" style="display: none;">
-                <span class="input-prompt" id="prompt">MyShell [/home/user]> </span>
+                <span class="input-prompt" id="prompt">MyShell> </span>
                 <input type="text" id="commandInput" autocomplete="off" spellcheck="false">
                 <span class="cursor" id="cursor">█</span>
             </div>
@@ -152,10 +153,11 @@
         <div class="demo-info">
             <h3>🚀 Demo Features</h3>
             <ul>
-                <li><strong>Try these commands:</strong> help, pwd, cd, ls, echo "hello world", date, whoami, clear</li>
+                <li><strong>Try these commands:</strong> help, about, coffee, joke, thapar, motivate, pwd, cd, ls</li>
+                <li><strong>Quirky Features:</strong> Personalized commands with Swapnil's touch and humor</li>
                 <li><strong>Original Features:</strong> Windows API integration, process management, file operations</li>
-                <li><strong>Technologies:</strong> C++17, WebAssembly (Emscripten), Modern Web APIs</li>
-                <li><strong>Source Code:</strong> Available for download - fully functional Windows shell</li>
+                <li><strong>Technologies:</strong> C++17, WebAssembly potential, Modern Web APIs</li>
+                <li><strong>Author:</strong> Swapnil Chhibber - Computer Engineering Student at Thapar</li>
             </ul>
             
             <h3>📥 Download Full Version</h3>
@@ -166,6 +168,7 @@
                 <li>Console color management</li>
                 <li>Pipe and redirection detection</li>
                 <li>Environment variable support</li>
+                <li>All quirky commands with personality!</li>
             </ul>
         </div>
     </div>
@@ -176,6 +179,12 @@
             constructor() {
                 this.currentDirectory = '/home/user';
                 this.history = [];
+                this.jokeIndex = 0;
+                this.moodIndex = 0;
+                this.sneakerIndex = 0;
+                this.tipIndex = 0;
+                this.bugIndex = 0;
+                this.quoteIndex = 0;
             }
             
             processCommand(input) {
@@ -189,6 +198,7 @@
                         return `=== MyShell Web Help ===
 Built-in commands:
   help            - Show this help message
+  about/author    - Show author information
   pwd             - Print working directory
   cd <directory>  - Change directory (simulated)
   ls/dir          - List directory contents
@@ -197,9 +207,229 @@ Built-in commands:
   date            - Show current date
   whoami          - Show current user
   exit            - Exit message
+  version/ver     - Show version info
 
-This is a JavaScript fallback demonstration.
-The full C++ version provides complete Windows OS integration.`;
+☕ Swapnil's Signature Commands:
+  coffee          - Best cold coffee wisdom
+  jaggi           - ASCII coffee art & Jaggi tribute
+  chai            - Hot take on masala chai
+  quote/motivate  - Random inspirational quotes
+  whoami          - Swapnil's introduction
+  mood            - Current coding mood
+  hi/hello        - Friendly greeting
+  sneaker         - Sneaker drop check
+  devtip          - Random coding wisdom
+  bug             - Funny bug names
+  thanks          - Gratitude acknowledgment
+  joke            - Programming jokes
+  thapar          - About Thapar Institute
+
+🎭 Easter Eggs & Fun:
+  swapgpt         - AI simulation
+  sudo            - No power here!
+  sing            - Musical interlude
+  swapify         - Music player simulation
+
+This is a web demonstration of the C++ shell.
+The original version runs natively on Windows with full OS integration.
+Built with ❤️ by Swapnil Chhibber`;
+                    
+                    case 'about':
+                    case 'author':
+                        return `=== About MyShell ===
+Author: Swapnil Chhibber
+Student: Final Year Computer Engineering
+University: Thapar Institute of Engineering & Technology
+Location: Patiala, Punjab, India
+
+"Building the future, one line of code at a time! 💻✨"
+
+This shell was built with C++17, Windows API, and lots of ☕
+Web version powered by modern JavaScript and creativity!`;
+                    
+                    case 'coffee':
+                        return `☕ Jaggi serves the best cold coffee! ☕
+Trust me, I'm a computer engineering student.
+Cold coffee is basically liquid motivation! 💪
+Fun fact: This shell was coded with 73% cold coffee in my system! 😄`;
+                    
+                    case 'jaggi':
+                        return `🏆 Tribute to Jaggi Uncle (The Coffee Legend):
+
+      ╔══════════════════════╗
+      ║     ☕ JAGGI ☕      ║
+      ║   Cold Coffee King   ║
+      ║  Making dreams come  ║
+      ║   true, one cup at   ║
+      ║      a time! 👑      ║
+      ╚══════════════════════╝
+
+The man, the myth, the coffee legend! 🙌`;
+                    
+                    case 'whoami':
+                        return `🚀 Meet the Developer:
+Name: Swapnil Chhibber
+Role: Code Magician & Coffee Enthusiast ☕
+Motto: 'Building software that matters, one line at a time'
+Specialty: C++, Creative Solutions, and Cold Coffee Advocacy
+Current Status: Bringing personality to terminals everywhere! 🎭`;
+                    
+                    case 'mood':
+                        const moods = [
+                            "🔥 On fire! Code is flowing like water!",
+                            "☕ Caffeinated and ready to debug the world!",
+                            "🎯 Laser-focused on solving complex problems",
+                            "🎨 In creative mode - architecting something beautiful",
+                            "🧘 Zen coding state - one with the algorithm",
+                            "🚀 Rocket mode engaged - productivity at maximum!",
+                            "🎵 Vibing with the code rhythm",
+                            "⚡ Electric! Every keystroke is pure energy!"
+                        ];
+                        const mood = `🎭 Swapnil's Current Coding Mood:\n${moods[this.moodIndex]}`;
+                        this.moodIndex = (this.moodIndex + 1) % moods.length;
+                        return mood;
+                    
+                    case 'chai':
+                        return `🫖 Hot Take on Chai:
+Look, I respect chai culture, but...
+Cold coffee >>> Chai (fight me! ☕)
+Though I admit, masala chai has its moments... 🤷‍♂️
+But for coding marathons? Cold coffee all the way! 💪`;
+                    
+                    case 'hi':
+                    case 'hello':
+                        return `👋 Hey there, awesome human!
+Welcome to MyShell - where commands meet personality!
+Ready to explore some quirky features? Type 'help' to get started! 🚀`;
+                    
+                    case 'sneaker':
+                        const sneakerFacts = [
+                            "Latest drop: Air Max 97 'Silver Bullet' - Classic never dies! 🔥",
+                            "Jordan 1 High OG 'Chicago' - The GOAT of sneakers! 🐐",
+                            "Yeezy 350 V2 'Static' - Comfort meets style! ⚡",
+                            "Off-White x Nike - Virgil's legacy lives on! 👑",
+                            "New Balance 990v3 'Grey' - The dad shoe that's actually fire! 😎"
+                        ];
+                        const sneaker = `👟 Sneaker Drop Alert:\n${sneakerFacts[this.sneakerIndex]}\nRemember: Sneakers are code for your feet! 👟💻`;
+                        this.sneakerIndex = (this.sneakerIndex + 1) % sneakerFacts.length;
+                        return sneaker;
+                    
+                    case 'devtip':
+                        const tips = [
+                            "Always comment your code - your future self will thank you!",
+                            "const > let > var - Choose your JavaScript variables wisely!",
+                            "Test early, test often, test with coffee! ☕",
+                            "Git commit messages should tell a story, not just say 'fix'",
+                            "Rubber duck debugging works - talk to your coffee mug if needed!",
+                            "Take breaks! Your best solutions come when you step away.",
+                            "Learn one new thing every day - consistency beats intensity!",
+                            "Code reviews are love letters to your teammates."
+                        ];
+                        const tip = `💡 Swapnil's Dev Tip of the Day:\n${tips[this.tipIndex]}`;
+                        this.tipIndex = (this.tipIndex + 1) % tips.length;
+                        return tip;
+                    
+                    case 'bug':
+                        const adjectives = ["Sneaky", "Invisible", "Quantum", "Ninja", "Phantom", "Mysterious", "Dancing", "Laughing"];
+                        const nouns = ["SegFault", "NullPointer", "MemoryLeak", "BufferOverflow", "RaceCondition", "DeadLock", "StackOverflow", "HeapCorruption"];
+                        const adjIndex = this.bugIndex % adjectives.length;
+                        const nounIndex = this.bugIndex % nouns.length;
+                        const bug = `🐛 Today's Bug Name Generator:\nMeet: ${adjectives[adjIndex]} ${nouns[nounIndex]}! 🎭\nApproach with caution and plenty of coffee! ☕`;
+                        this.bugIndex = (this.bugIndex + 1) % (adjectives.length * nouns.length);
+                        return bug;
+                    
+                    case 'thanks':
+                        return `🙏 You're very welcome!
+Thanks for using MyShell - you make all this coding worthwhile!
+Remember: You're awesome, and your code is too! 🌟
+Now go forth and create something amazing! 🚀`;
+                    
+                    case 'swapgpt':
+                        return `🤖 SwapGPT v1.0 Initializing...
+[████████████████████] 100%
+SwapGPT: Hello! I'm the shell's AI assistant!
+SwapGPT: I can help with... uh... making coffee recommendations?
+SwapGPT: And telling you that cold coffee > hot coffee! ☕
+SwapGPT: (Disclaimer: I'm just a function in disguise 😉)`;
+                    
+                    case 'sudo':
+                        return `🚫 sudo: Permission denied!
+Nice try, but this is web territory! 🌐
+Here we use 'localStorage' like civilized people! 😄
+sudo make me a sandwich? How about 'coffee first'! ☕`;
+                    
+                    case 'sing':
+                        return `🎵 MyShell Serenade:
+♪ Code, code, code your app ♪
+♪ Gently down the stream ♪
+♪ Merrily, merrily, merrily, merrily ♪
+♪ Life is but a dream... of clean code! ♪
+*Takes a bow* 🎭 Thank you, thank you! ☕`;
+                    
+                    case 'swapify':
+                        return `🎧 Welcome to Swapify - Premium Music Experience!
+🎵 Now playing: 'The Algorithm Blues' by Code Monks
+⏮️  ⏸️  ⏭️  🔄  📶
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3:42 / 4:20
+Up next: 'Segmentation Fault Samba' 🎶
+Premium feature: No ads, just pure coding vibes! ☕`;
+                    
+                    case 'version':
+                    case 'ver':
+                        return `🌐 MyShell Web v1.0
+Platform: Browser (JavaScript)
+Author: Swapnil Chhibber
+Build: August 2025
+
+📊 Feature Comparison:
+✅ Web Version: 20+ commands, cross-platform, instant access
+✅ Native Version: 26+ commands, full Windows integration, file system access
+
+🚀 Both versions include Swapnil's signature personality and quirky commands!
+Built with the same love for coffee and clean code! ☕`;
+                    
+                    case 'joke':
+                        const jokes = [
+                            "Why do programmers prefer dark mode? Because light attracts bugs! 🐛",
+                            "How many programmers does it take to change a light bulb? None, that's a hardware problem! 💡",
+                            "Why do Java developers wear glasses? Because they don't C# ! 👓",
+                            "A SQL query walks into a bar, walks up to two tables and asks: 'Can I join you?' 🍺",
+                            "There are only 10 types of people: those who understand binary and those who don't! 1010",
+                            "Why did the programmer quit his job? He didn't get arrays! 📊",
+                            "What's a computer's favorite beat? An algo-rhythm! 🎵"
+                        ];
+                        const joke = `😂 Swapnil's Programming Joke #${this.jokeIndex + 1}:\n${jokes[this.jokeIndex]}`;
+                        this.jokeIndex = (this.jokeIndex + 1) % jokes.length;
+                        return joke;
+                    
+                    case 'thapar':
+                        return `🏛️  Thapar Institute of Engineering & Technology 🏛️
+📍 Location: Patiala, Punjab, India
+📅 Established: 1956
+🎓 My Program: Computer Engineering (Final Year)
+
+💡 Known for:
+   • Excellent engineering programs
+   • Strong industry connections
+   • Beautiful campus in Punjab
+   • Producing awesome engineers like me! 😎
+
+Proud to be a Thapar student! 🚀`;
+                    
+                    case 'motivate':
+                    case 'quote':
+                        const quotes = [
+                            "\"Code is like humor. When you have to explain it, it's bad.\" - Cory House 💻",
+                            "\"The best error message is the one that never shows up.\" - Thomas Fuchs ✨",
+                            "\"Programming isn't about what you know; it's about what you can figure out.\" - Chris Pine 🧠",
+                            "\"Experience is the name everyone gives to their mistakes.\" - Oscar Wilde 📚",
+                            "\"The only way to learn a new programming language is by writing programs in it.\" - Dennis Ritchie 🔥",
+                            "\"Keep coding, keep learning, keep growing!\" - Swapnil Chhibber 🌱",
+                            "\"Coffee + Code = Magic. That's the Thapar way!\" - Swapnil's Life Philosophy ☕"
+                        ];
+                        const quote = `✨ Motivation from Swapnil ✨\n${quotes[this.quoteIndex]}\n\nYou've got this! Keep pushing forward! 💪🚀`;
+                        this.quoteIndex = (this.quoteIndex + 1) % quotes.length;
+                        return quote;
                     
                     case 'pwd':
                         return `Current directory: ${this.currentDirectory}`;
@@ -238,10 +468,7 @@ Note: This is a simulated directory listing.`;
                         return `Output: ${tokens.slice(1).join(' ')}`;
                     
                     case 'date':
-                        return `Current date: ${new Date().toLocaleString()}`;
-                    
-                    case 'whoami':
-                        return 'web-user';
+                        return `Current date: ${new Date().toLocaleString()}\nHope you're killing it today! 💪`;
                     
                     case 'clear':
                     case 'cls':
@@ -249,7 +476,9 @@ Note: This is a simulated directory listing.`;
                         return '';
                     
                     case 'exit':
-                        return 'Thank you for using MyShell Web Demo!';
+                        return `Thanks for using MyShell Web! 🚀
+Built with ❤️ by Swapnil Chhibber
+Keep coding and stay awesome! ✨`;
                     
                     default:
                         return `Error: Command '${command}' not found. Type 'help' for available commands.`;
@@ -257,7 +486,7 @@ Note: This is a simulated directory listing.`;
             }
             
             getPrompt() {
-                return `MyShell [${this.currentDirectory}]> `;
+                return `MyShell> `;
             }
         }
         
@@ -273,11 +502,14 @@ Note: This is a simulated directory listing.`;
             document.getElementById('inputLine').style.display = 'flex';
             
             // Show welcome message
-            const welcomeMsg = `====================================
-    Welcome to MyShell v1.0 (Web)
-    C++ Shell in Your Browser!
-====================================
-Type 'help' for available commands
+            const welcomeMsg = `===========================================
+Welcome to MyShell v1.0 🚀
+Crafted with ❤️ by Swapnil Chhibber
+Final Year Computer Engineering Student
+Thapar Institute of Engineering & Technology
+===========================================
+Ready to code, debug, and conquer! 💪
+Type 'help' for commands or try 'coffee' for wisdom ☕
 
 `;
             appendOutput(welcomeMsg, 'info');
